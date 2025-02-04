@@ -1,5 +1,5 @@
 provider "google" {
-  project = "local-concord-408802"
+  project = "soy-smile-435017-c5"
   region  = "asia-northeast1"
   zone    = "asia-northeast1-a"
 }
@@ -8,8 +8,7 @@ provider "google" {
 ##### vpc module call.
 #####==============================================================================
 module "vpc" {
-  source                                    = "SyncArcs/vpc/google"
-  version                                   = "1.0.1"
+  source                                    = "git::https://github.com/SyncArcs/terraform-google-vpc.git?ref=v1.0.1"
   name                                      = "app"
   environment                               = "test"
   routing_mode                              = "REGIONAL"
@@ -20,8 +19,7 @@ module "vpc" {
 ##### subnet module call.
 #####==============================================================================
 module "subnet" {
-  source        = "SyncArcs/subnet/google"
-  version       = "1.0.1"
+  source        = "git::https://github.com/SyncArcs/terraform-google-subnet.git?ref=v1.0.0"
   name          = "app"
   environment   = "test"
   subnet_names  = ["subnet-a"]
@@ -34,16 +32,24 @@ module "subnet" {
 ##### firewall module call.
 #####==============================================================================
 module "firewall" {
-  source        = "SyncArcs/firewall/google"
-  version       = "1.0.1"
+  source        = "git::https://github.com/SyncArcs/terraform-google-firewall.git?ref=v1.0.0"
   name          = "app"
   environment   = "test"
   network       = module.vpc.vpc_id
-  source_ranges = ["0.0.0.0/0"]
 
-  allow = [
-    { protocol = "tcp"
-      ports    = ["22", "80"]
+  ingress_rules = [
+    {
+      name          = "allow-tcp-http-ingress"
+      description   = "Allow TCP, HTTP ingress traffic"
+      direction     = "INGRESS"
+      priority      = 1000
+      source_ranges = ["0.0.0.0/0"]
+      allow = [
+        {
+          protocol = "tcp"
+          ports    = ["22", "80"]
+        }
+      ]
     }
   ]
 }
@@ -52,8 +58,7 @@ module "firewall" {
 ##### instance_template module call.
 #####==============================================================================
 module "instance_template" {
-  source               = "SyncArcs/template-instance/google"
-  version              = "1.0.1"
+  source               = "git::https://github.com/SyncArcs/terraform-google-template-instance.git?ref=v1.0.0"
   name                 = "template"
   environment          = "test"
   region               = "asia-northeast1"
@@ -77,8 +82,7 @@ module "instance_template" {
 ##### instance_group module call.
 #####==============================================================================
 module "instance_group" {
-  source              = "SyncArcs/instance-group/google"
-  version             = "1.0.1"
+  source              = "git::https://github.com/SyncArcs/terraform-google-instance-group.git?ref=v1.0.0"
   region              = "asia-northeast1"
   hostname            = "test"
   autoscaling_enabled = true
@@ -103,7 +107,7 @@ module "instance_group" {
 #### load_balancer_custom_hc module call.
 ####==============================================================================
 module "load_balancer" {
-  source                  = ".."
+  source                  = "./.."
   name                    = "test"
   environment             = "load-balancer"
   region                  = "asia-northeast1"

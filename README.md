@@ -17,8 +17,7 @@ To use this module, you should have Terraform installed and configured for GCP. 
 # Example: load-balancer
 ```hcl
 module "load_balancer" {
-  source                  = "SyncArcs/lb/google"
-  version                 = "1.0.1"
+  source                  = "https://github.com/SyncArcs/terraform-google-lb.git?ref=v1.0.0"
   name                    = "test"
   environment             = "load-balancer"
   region                  = "asia-northeast1"
@@ -58,7 +57,7 @@ This project is licensed under the **MIT** License - see the [LICENSE](https://g
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_labels"></a> [labels](#module\_labels) | SyncArcs/labels/google | 1.0.0 |
+| <a name="module_labels"></a> [labels](#module\_labels) | git::https://github.com/SyncArcs/terraform-google-labels.git | v1.0.0 |
 
 ## Resources
 
