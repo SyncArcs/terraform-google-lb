@@ -1,6 +1,5 @@
 module "labels" {
-  source      = "SyncArcs/labels/google"
-  version     = "1.0.0"
+  source      = "git::https://github.com/SyncArcs/terraform-google-labels.git?ref=v1.0.0"
   name        = var.name
   environment = var.environment
   label_order = var.label_order
@@ -90,3 +89,4 @@ resource "google_compute_firewall" "default-hc-fw" {
   target_tags             = var.target_tags
   target_service_accounts = var.target_service_accounts
 }
+
