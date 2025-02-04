@@ -89,3 +89,4 @@ resource "google_compute_firewall" "default-hc-fw" {
   target_tags             = var.target_tags
   target_service_accounts = var.target_service_accounts
 }
+
