@@ -32,10 +32,10 @@ module "subnet" {
 ##### firewall module call.
 #####==============================================================================
 module "firewall" {
-  source        = "git::https://github.com/SyncArcs/terraform-google-firewall.git?ref=v1.0.0"
-  name          = "app"
-  environment   = "test"
-  network       = module.vpc.vpc_id
+  source      = "git::https://github.com/SyncArcs/terraform-google-firewall.git?ref=v1.0.0"
+  name        = "app"
+  environment = "test"
+  network     = module.vpc.vpc_id
 
   ingress_rules = [
     {
